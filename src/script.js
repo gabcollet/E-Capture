@@ -5,12 +5,12 @@ const { Menu } = remote;
 window.addEventListener('DOMContentLoaded', () => {
     console.log('loaded');
     let sourceName = '';
-    let image = null;
+    // let image = null;
 
     //Send event for the capture and create save button 
     document.getElementById('btn').addEventListener('click', () => {
         ipcRenderer.send('screenshot:capture', {sourceName});
-        // const button = document.createElement("button");
+        const button = document.createElement("button");
         // button.innerText = "Save";
         // button.id = "saveBtn";
         // document.getElementsByTagName("body")[0].appendChild(button);  
@@ -22,13 +22,13 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     
     //Send event for Save
-    document.getElementById('saveBtn').addEventListener('click', () => {
-        ipcRenderer.send('imgSource', {});
-    });
+    // document.getElementById('saveBtn').addEventListener('click', () => {
+    //     ipcRenderer.send('imgSource', {});
+    // });
 
     ipcRenderer.on('screenshot:captured', (e, imageData) => {
         document.getElementById("placeholder").src = imageData;
-        image = imageData;
+        // image = imageData;
     });
     
     let srcOptionMenu;
