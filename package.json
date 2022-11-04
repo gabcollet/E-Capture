@@ -19,7 +19,8 @@
   "license": "MIT",
   "dependencies": {
     "@electron/remote": "^2.0.8",
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "fs": "^0.0.1-security"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0",

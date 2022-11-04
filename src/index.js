@@ -1,5 +1,6 @@
-const { app, BrowserWindow, desktopCapturer, ipcMain } = require('electron');
+const { app, BrowserWindow, desktopCapturer, ipcMain, dialog } = require('electron');
 const remoteMain = require('@electron/remote/main');
+const fs = require('fs');
 remoteMain.initialize();
 const path = require('path');
 
@@ -77,12 +78,30 @@ async function getSourcesList () {
   mainWindow.webContents.send('videoList', sources);
 }
 
+async function saveFile (value) {
+  const data = value.image.replace(/^data:image\/\w+;base64,/, "");
+  const buf = Buffer.from(data, 'base64');
+  const path = await dialog.showOpenDialog({
+      properties: ['openFile', 'openDirectory', 'multiSelections']
+    });
+  fs.writeFile(`${path.filePaths}/${value.sourceName}-screenshot.png`, buf, function(err){
+    if (err){
+      //Do Nothing
+    };
+  });
+}
+
+//Handle event
 ipcMain.on('screenshot:capture', (e, value) => {
   capture(value.sourceName);
 })
 
 ipcMain.on('imgSource', (e, value) => {
   getSourcesList();
+})
+
+ipcMain.on('imgSave', (e, value) => {
+  saveFile(value);
 })
 
 // In this file you can include the rest of your app's specific main process
